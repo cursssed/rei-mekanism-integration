@@ -45,6 +45,10 @@ jobs:
       - name: Build
         run: ./gradlew build --stacktrace
 
+      - name: Generate SHA-512 checksum
+        working-directory: build/libs
+        run: sha512sum "reimekanismintegration-${{ env.mod_version }}.jar" > "reimekanismintegration-${{ env.mod_version }}.jar.sha512"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -52,3 +56,4 @@ jobs:
           generate_release_notes: true
           files: |
             build/libs/reimekanismintegration-${{ env.mod_version }}.jar
+            build/libs/reimekanismintegration-${{ env.mod_version }}.jar.sha512
