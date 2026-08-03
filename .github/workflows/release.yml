@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify tag matches mod_version
+        run: |
+          set -euo pipefail
+          tag_version="${GITHUB_REF_NAME#v}"
+          properties_version=$(grep '^mod_version=' gradle.properties | cut -d= -f2)
+          if [ "$tag_version" != "$properties_version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match mod_version=$properties_version in gradle.properties"
+            exit 1
+          fi
+          echo "mod_version=$properties_version" >> "$GITHUB_ENV"
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build --stacktrace
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: REI - Mekanism Integration ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            build/libs/reimekanismintegration-${{ env.mod_version }}.jar

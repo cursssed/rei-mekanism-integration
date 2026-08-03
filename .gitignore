@@ -1,0 +1,19 @@
+.gradle/
+docs/
+gradle/
+build/
+out/
+*.iml
+.idea/
+runs/
+docs/*
+
+**/libs/*.jar
+!**/libs/.gitkeep
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.hprof
+.vscode/
+/docs/*

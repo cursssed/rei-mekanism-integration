@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    authors="${mod_authors}"
+    description='''Mekanism recipes integration for Roughly Enough Items (REI)'''
+
+[[dependencies.reimekanismintegration]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    side="CLIENT"
+[[dependencies.reimekanismintegration]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
+    side="CLIENT"
+[[dependencies.reimekanismintegration]]
+    modId="mekanism"
+    type="required"
+    versionRange="${mekanism_version_range}"
+    side="CLIENT"
+[[dependencies.reimekanismintegration]]
+    modId="roughlyenoughitems"
+    type="required"
+    versionRange="${rei_version_range}"
+    side="CLIENT"
